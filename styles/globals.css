@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&display=swap");
+
+body {
+  overflow-x: hidden;
+}
+
+html.dark {
+  background-color: #000;
+  color: white;
+}
+
+html.light {
+  background-color: #fff;
+  color: black;
+}
+@keyframes tech-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.tech-marquee-row {
+  display: inline-flex;
+  align-items: center;
+  animation: tech-marquee 18s linear infinite; /* slightly faster */
+}
+
+.tech-marquee-row--reverse {
+  animation-direction: reverse;
+}
+.card-heading {
+  font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  /* neon gradient that works on black */
+  background: linear-gradient(90deg, #f97316, #e879f9, #22c7ff);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.card-heading-blue {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  background: linear-gradient(90deg, #38bdf8, #4ade80);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+/* ===========================
+   Card heading font styles
+   =========================== */
+
+/* Tech card */
+.card-heading-blue {
+  @apply text-blue-300;
+  font-family: "Bahnschrift", "Segoe UI", "Calibri", sans-serif;
+}
+
+/* About card */
+.card-heading-purple {
+  @apply text-purple-300;
+  font-family: "Segoe UI Semibold", "Trebuchet MS", "Verdana", sans-serif;
+}
+
+/* Time-zone globe card */
+.card-heading-cyan {
+  @apply text-cyan-300;
+  font-family: "Gill Sans MT", "Segoe UI", "Tahoma", sans-serif;
+}
+
+/* Certifications card */
+.card-heading-gold {
+  @apply text-amber-300;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+/* Education card */
+.card-heading-emerald {
+  @apply text-emerald-300;
+  font-family: "Calibri", "Segoe UI", system-ui, sans-serif;
+}
+
+/* Current project card */
+.card-heading-orange {
+  @apply text-orange-300;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+/* Let’s work together card */
+.card-heading-pink {
+  @apply text-pink-300;
+  font-family: "Brush Script MT", "Lucida Handwriting", cursive;
+}
+/* Neon green heading style */
+.card-heading-neon {
+  color: #39ff14; /* neon green */
+  text-shadow: 0 0 10px rgba(57, 255, 20, 0.9);
+}
+/* Base style for all neon headings */
+.card-heading-neon {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* Neon RED */
+.card-heading-neon-red {
+  color: #ff4d6a;
+  text-shadow:
+    0 0 6px rgba(255, 77, 106, 0.9),
+    0 0 14px rgba(255, 77, 106, 0.7);
+}
+
+/* Neon BLUE */
+.card-heading-neon-blue {
+  color: #4dd2ff;
+  text-shadow:
+    0 0 6px rgba(77, 210, 255, 0.9),
+    0 0 14px rgba(77, 210, 255, 0.7);
+}
+
+/* Neon YELLOW */
+.card-heading-neon-yellow {
+  color: #ffe66b;
+  text-shadow:
+    0 0 6px rgba(255, 230, 107, 0.9),
+    0 0 14px rgba(255, 230, 107, 0.7);
+}
+
+/* Neon ORANGE */
+.card-heading-neon-orange {
+  color: #ff9f40;
+  text-shadow:
+    0 0 6px rgba(255, 159, 64, 0.9),
+    0 0 14px rgba(255, 159, 64, 0.7);
+}
+

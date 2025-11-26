@@ -1,0 +1,4 @@
+export default {
+  extends: ["next", "next/core-web-vitals", "eslint:recommended"],
+  rules: {},
+};
