@@ -328,12 +328,12 @@ export default function Home() {
       {/* DOCUMENTS SECTION (Certificates & Documents) */}
       <section
         id="documents"
-        className="relative min-h-screen pt-16 flex flex-col justify-center items-center px-6 py-20 text-white overflow-hidden"
+        className="relative min-h-screen pt-16 flex flex-col justify-center items-center px-6 py-20 bg-black text-white overflow-hidden"
       >
         {/* Background image */}
         <div className="absolute inset-0">
           <img
-            src="/documents-bg.jpg" // put an image in /public with this name or change the path
+            src="/documents-bg.jpg" // keep this in /public or change the path
             alt="Certificates background"
             className="w-full h-full object-cover"
           />
@@ -344,11 +344,14 @@ export default function Home() {
 
         {/* Foreground content */}
         <div className="relative z-10 max-w-6xl w-full flex flex-col items-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold mb-6 text-center
-             bg-gradient-to-r from-lime-400 via-sky-400 to-orange-400
-             bg-clip-text text-transparent drop-shadow-lg">
+          <h2
+            className="text-3xl sm:text-4xl font-extrabold mb-6 text-center
+                      bg-gradient-to-r from-lime-400 via-sky-400 to-orange-400
+                      bg-clip-text text-transparent drop-shadow-lg"
+          >
             Certificates &amp; Documents
           </h2>
+
           <p className="text-gray-200 mb-10 text-center max-w-2xl">
             Official documents and course certifications — click to view, download,
             or open the credential source.
@@ -370,6 +373,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
 
       {/* CONTACT SECTION */}
