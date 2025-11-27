@@ -91,31 +91,30 @@ export default function Home() {
     },
   ];
 
-    const documents = [
+  const documents = [
     {
-      filename: "certificate_FJts.9C6E.fotg.pdf",
-      title: "PCAP (Certified Associate Python Programmer)",
+      filename: "certificate_pcap.pdf",
+      title: "PCAP (Certified Associate Python Programmer",
     },
-    { filename: "FSD_JAVA.pdf", title: "SEED Certified Technology Specialist-Java" },
+    { filename: "fsd_java.pdf", title: "SEED Certified Technology Specialist-Java" },
     {
       filename: "GenAI in Action (Credly)", // just an identifier
       title: "GenAI in Action: Impact and Possibilities (USF Office of Microcredentials)",
       external: true,
       link: "https://www.credly.com/badges/1281886b-0c8f-48c1-aa3a-3c1f7952e16b",
     },
-    { filename: "Score Report.pdf", title: "Python Institute" },
-    { filename: "Diploma Certificate.pdf", title: "Diploma in Mechanical Engineering" },
-    { filename: "Pune university Certificate.pdf", title: "Bachelors in Mechanical Engineering" },
-    { filename: "GRE Certificate.pdf", title: "Graduate Record Examinations" },
-    { filename: "TOEFL iBT.pdf", title: "Test of English as a Foreign Language" },
-    { filename: "WES document.pdf", title: "World Education Services Transcripts" },
-    { filename: "Shantanu Deshmukh Resume.pdf", title: "My Resume" },
-    { filename: "Cover Letter.pdf", title: "Cover Letter" },
-    
+    { filename: "score_report.pdf", title: "Python Institute" },
+    { filename: "diploma_mechanical.pdf", title: "Diploma in Mechanical Engineering" },
+    { filename: "pune_university_degree.pdf", title: "Bachelors in Mechanical Engineering" },
+    { filename: "gre_certificate.pdf", title: "Graduate Record Examinations" },
+    { filename: "toefl_certificate.pdf", title: "Test of English as a Foreign Language" },
+    { filename: "wes_transcripts.pdf", title: "World Education Services Transcripts" },
+    { filename: "resume_shantanu.pdf", title: "My Resume" },
+    { filename: "cover_letter.pdf", title: "Cover Letter" },
   ];
 
 
-  const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+  // const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -364,7 +363,7 @@ export default function Home() {
                 href={
                   doc.external
                     ? doc.link
-                    : `${apiBase}/get-pdf/${encodeURIComponent(doc.filename)}`
+                    : `/docs/${encodeURIComponent(doc.filename)}`
                 }
               />
             ))}
