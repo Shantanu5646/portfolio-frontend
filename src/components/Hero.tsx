@@ -2,26 +2,33 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useThemeMode } from "./ThemeProvider";
 
 export default function Hero() {
+  const { theme } = useThemeMode();
+
   return (
     <section
       id="hero"
       className="relative min-h-screen flex flex-col items-center text-center px-6 text-white"
       style={{ paddingTop: "1.6in" }} // keeps nice gap from navbar
     >
-      {/* 🔹 Video background */}
+      {/* 🔹 Video background (changes with theme) */}
       <video
-        className="absolute inset-0 w-full h-full object-cover -z-10"
-        src="/hero-bg.mp4"       // <-- your MP4 file here
+        className="absolute inset-0 w-full h-full object-cover -z-20"
+        src={theme === "dark" ? "/hero-bg.mp4" : "/hero-light.mp4"}
         autoPlay
         loop
         muted
         playsInline
       />
 
-      {/* Optional dark overlay for readability */}
-      <div className="absolute inset-0 bg-black/40 -z-10" />
+      {/* Overlay: dark only in dark mode */}
+      <div
+        className={`absolute inset-0 -z-10 transition-colors duration-300 ${
+          theme === "dark" ? "bg-black/40" : "bg-black/0"
+        }`}
+      />
 
       <div className="relative z-10 max-w-3xl">
         {/* Tagline */}
@@ -36,7 +43,8 @@ export default function Hero() {
           </span>
           <span
             style={{
-              fontFamily: "'Cascadia Code', 'Consolas', 'Courier New', monospace",
+              fontFamily:
+                "'Cascadia Code', 'Consolas', 'Courier New', monospace",
               display: "block",
             }}
           >
@@ -55,7 +63,6 @@ export default function Hero() {
         {/* Profile logo under the heading */}
         <div className="mt-0 flex justify-center">
           <div className="group relative inline-flex items-center cursor-pointer">
-            {/* Logo container – rectangle with curved edges */}
             <div
               className="relative h-14 w-24 overflow-hidden rounded-2xl bg-black/40
                          transition-transform duration-300 group-hover:-translate-y-1 group-hover:rotate-1"
@@ -68,7 +75,6 @@ export default function Hero() {
               />
             </div>
 
-            {/* 👋 hand appears on hover */}
             <span
               className="absolute -top-3 -right-3 text-2xl
                          opacity-0 translate-y-1
@@ -81,7 +87,8 @@ export default function Hero() {
         </div>
 
         <p className="text-lg sm:text-xl text-gray-300 mb-8">
-          A full-stack developer & AI/ML enthusiast crafting innovative solutions.
+          A full-stack developer & AI/ML enthusiast crafting innovative
+          solutions.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useThemeMode } from "./ThemeProvider";
 
 const LINKS = [
   { id: "hero", label: "Home", href: "/" },
@@ -18,29 +19,13 @@ type SectionId = (typeof LINKS)[number]["id"];
 
 export default function Nav() {
   const pathname = usePathname();
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const { theme, toggleTheme } = useThemeMode(); // 👈 use context theme
+
   const [activeSection, setActiveSection] = useState<SectionId>("hero");
 
-  // Theme init
+  // Route-based default active section
   useEffect(() => {
-    const saved = localStorage.getItem("theme") as "light" | "dark" | null;
-    const initial = saved ?? "dark";
-    setTheme(initial);
-    document.documentElement.classList.toggle("dark", initial === "dark");
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
-  };
-
-  // Set active link based on route (for /documents page)
-  useEffect(() => {
-    if (pathname === "/documents") {
-      setActiveSection("documents");
-    } else if (pathname === "/") {
+    if (pathname === "/") {
       setActiveSection("hero");
     }
   }, [pathname]);
@@ -82,9 +67,8 @@ export default function Nav() {
   return (
     <>
       {/* Top blurred strip behind logo + navbar */}
-      <div
-        className="fixed inset-x-0 top-0 h-10 bg-black/10 backdrop-blur-xl z-30 pointer-events-none"
-      />
+      <div className="fixed inset-x-0 top-0 h-10 bg-black/10 backdrop-blur-xl z-30 pointer-events-none" />
+
       {/* SD Logo - fixed at top-left */}
       <Link
         href="/"
@@ -121,11 +105,18 @@ export default function Nav() {
             );
           })}
 
+          {/* Theme toggle button */}
           <button
+            type="button"
             onClick={toggleTheme}
-            className="ml-2 px-2 py-1 text-xs rounded-full border border-white/30 text-white/80 hover:bg-white hover:text-black transition-colors"
+            className="px-3 py-1.5 rounded-full border border-white/20 text-xs sm:text-sm
+                       bg-white/5 hover:bg-white/10 transition flex items-center gap-2"
           >
-            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+            <span
+              className="inline-block h-2 w-2 rounded-full
+                         bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+            />
+            <span>{theme === "dark" ? "Dark mode" : "Light mode"}</span>
           </button>
         </div>
       </nav>

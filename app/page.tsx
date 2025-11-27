@@ -3,7 +3,7 @@ import { useState } from "react";
 import Hero from "../src/components/Hero";
 import DocumentCard from "../src/components/DocumentCard";
 import ProjectCard from "../src/components/ProjectCard";
-
+import { useThemeMode } from "../src/components/ThemeProvider";
 import AboutSummaryCard from "../src/components/AboutSummaryCard";
 import TechStackCard from "../src/components/TechStackCard";
 import CertificationsCard from "../src/components/CertificationsCard";
@@ -11,9 +11,11 @@ import EducationCard from "../src/components/EducationCard";
 import FlexibleTimezoneCard from "../src/components/FlexibleTimezoneCard";
 import CurrentProjectCard from "../src/components/CurrentProjectCard";
 import LetsWorkTogetherCard from "../src/components/LetsWorkTogetherCard";
-import Footer from "../src/components/Footer";
+
 
 export default function Home() {
+  const { theme } = useThemeMode();
+
   const techStacks = [
     "Python",
     "Java",
@@ -40,7 +42,7 @@ export default function Home() {
     "Jira",
   ];
 
-    const projects = [
+  const projects = [
     {
       name: "Sentiment Aware Customer Support Chatbot AWS",
       description:
@@ -99,7 +101,8 @@ export default function Home() {
     { filename: "fsd_java.pdf", title: "SEED Certified Technology Specialist-Java" },
     {
       filename: "GenAI in Action (Credly)", // just an identifier
-      title: "GenAI in Action: Impact and Possibilities (USF Office of Microcredentials)",
+      title:
+        "GenAI in Action: Impact and Possibilities (USF Office of Microcredentials)",
       external: true,
       link: "https://www.credly.com/badges/1281886b-0c8f-48c1-aa3a-3c1f7952e16b",
     },
@@ -112,9 +115,6 @@ export default function Home() {
     { filename: "resume_shantanu.pdf", title: "My Resume" },
     { filename: "cover_letter.pdf", title: "Cover Letter" },
   ];
-
-
-  // const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
@@ -154,91 +154,107 @@ export default function Home() {
     }
   };
 
-
   return (
     <>
       {/* HERO SECTION */}
       <Hero />
 
-     
       {/* ABOUT + CARD GRID (second page) */}
       <section
         id="about"
-        className="min-h-screen bg-black text-white px-4 sm:px-6 lg:px-8 py-20"
+        className={`min-h-screen px-4 sm:px-6 lg:px-8 py-20 transition-colors duration-300 ${
+          theme === "dark"
+            ? "bg-black text-white"
+            : "bg-slate-50 text-slate-900"
+        }`}
       >
-        <div className="max-w-6xl mx-auto space-y-8">
+        <div className="max-w-6xl mx-auto space-y-10">
           {/* Header row */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <p className="text-xl font-bold uppercase tracking-[0.25em] text-purple-300">
+              <p
+                className={`text-xs sm:text-sm md:text-base font-semibold uppercase tracking-[0.25em] ${
+                  theme === "dark" ? "text-purple-300" : "text-purple-600"
+                }`}
+              >
                 About
               </p>
               <h2 className="text-3xl sm:text-4xl font-bold mt-2">
                 Beyond just writing code.
               </h2>
-              <p className="mt-3 text-sm sm:text-base text-gray-300 max-w-xl">
-                I&apos;m a software engineer who cares about reliable systems, clear
-                boundaries, and collaborating closely with teams to ship real products.
+              <p
+                className={`mt-3 text-sm sm:text-base max-w-xl ${
+                  theme === "dark" ? "text-gray-300" : "text-slate-600"
+                }`}
+              >
+                I&apos;m a software engineer who cares about reliable systems,
+                clear boundaries, and collaborating closely with teams to ship
+                real products.
               </p>
             </div>
           </div>
 
           {/* Card grid */}
-          <div className="grid gap-6 md:grid-cols-3">
-            {/* top row */}
+          {/* Dark panel only in LIGHT mode so existing dark cards stay perfect */}
+          <div
+            className={`grid gap-6 md:grid-cols-3 transition-all duration-300 ${
+              theme === "light"
+                ? "bg-slate-900 text-white p-6 sm:p-8 rounded-3xl shadow-[0_24px_60px_rgba(15,23,42,0.75)] border border-slate-800"
+                : ""
+            }`}
+          >
             <AboutSummaryCard />
             <TechStackCard techStacks={techStacks} tools={tools} />
             <FlexibleTimezoneCard />
 
-            {/* middle row – the 3 compact cards */}
             <EducationCard />
             <CurrentProjectCard />
             <LetsWorkTogetherCard />
 
-            {/* bottom row – full-width certifications card */}
             <CertificationsCard />
           </div>
         </div>
       </section>
 
-
       {/* PROJECTS SECTION */}
       <section
         id="projects"
-        className="relative min-h-screen pt-16 flex flex-col justify-center items-center px-6 py-20 text-white overflow-hidden"
+        className="relative min-h-screen pt-16 flex flex-col justify-center items-center px-6 py-20 text-white"
       >
         {/* Background video */}
         <video
-          className="absolute inset-0 w-full h-full object-cover"
-          src="/projects-bg.mp4" // keep your file name / path here
+          className="absolute inset-0 w-full h-full object-cover -z-20"
+          src="/projects-bg.mp4"
           autoPlay
           loop
           muted
           playsInline
         />
 
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black/60" />
+        {/* Overlay: only dark in dark mode */}
+        <div
+          className={`absolute inset-0 -z-10 transition-colors duration-300 ${
+            theme === "dark" ? "bg-black/70" : "bg-black/0"
+          }`}
+        />
 
-        {/* Foreground content */}
-        <div className="relative z-10 max-w-6xl w-full flex flex-col items-center">
-          {/* Heading */}
-          <div className="mb-12 text-center max-w-2xl">
-            <p className="text-xl font-bold uppercase tracking-[0.3em] text-lime-300">
+        <div className="relative z-10 max-w-6xl w-full">
+          <div className="text-center mb-10">
+            <p className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-emerald-300/80">
               Projects
             </p>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-lime-400 via-sky-400 to-orange-400 bg-clip-text text-transparent drop-shadow-lg">
-              Turning ideas into working systems.
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3">
+              <span className="bg-gradient-to-r from-emerald-300 via-sky-300 to-purple-300 bg-clip-text text-transparent">
+                Experience that ships real products
+              </span>
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-gray-200">
-              I enjoy building real-world solutions—from AI-powered assistants to
-              full-stack web apps. These projects show how I approach
-              problem-solving, clean structure, and user-focused design.
+            <p className="text-sm sm:text-base text-slate-200 max-w-2xl mx-auto">
+              A mix of AI/ML, full-stack, and cloud projects that reflect how I
+              like to build – practical, performant, and production-ready.
             </p>
           </div>
 
-          {/* Project cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <ProjectCard key={project.name} index={index} {...project} />
             ))}
@@ -246,9 +262,6 @@ export default function Home() {
         </div>
       </section>
 
-
-
-     
       {/* WORK SECTION */}
       <section
         id="work"
@@ -257,13 +270,13 @@ export default function Home() {
         {/* Background image */}
         <div className="absolute inset-0">
           <img
-            src="/work-bg.jpg" // put your image in /public as work-bg.jpg (or change this path)
+            src="/work-bg.jpg"
             alt="Work background"
             className="w-full h-full object-cover"
           />
         </div>
 
-        {/* Dark overlay */}
+        {/* Dark overlay (kept same for both themes – you like current dark look) */}
         <div className="absolute inset-0 bg-black/70" />
 
         {/* Foreground content */}
@@ -277,9 +290,9 @@ export default function Home() {
               Experience that ships real products.
             </h2>
             <p className="mt-4 text-sm sm:text-base text-gray-200">
-              I’ve worked on real-world applications in e-commerce and healthcare,
-              focusing on reliable backends, smooth deployments, and close
-              collaboration with cross-functional teams.
+              I’ve worked on real-world applications in e-commerce and
+              healthcare, focusing on reliable backends, smooth deployments, and
+              close collaboration with cross-functional teams.
             </p>
           </div>
 
@@ -296,9 +309,9 @@ export default function Home() {
               </div>
 
               <p className="text-gray-200 text-sm sm:text-base">
-                Worked on e-commerce and healthcare products, building Java/Spring
-                MVC features, automating deployments with Jenkins, and
-                collaborating closely with QA and product teams.
+                Worked on e-commerce and healthcare products, building
+                Java/Spring MVC features, automating deployments with Jenkins,
+                and collaborating closely with QA and product teams.
               </p>
 
               <div className="mt-4 flex flex-wrap gap-2 text-xs sm:text-sm">
@@ -323,9 +336,7 @@ export default function Home() {
         </div>
       </section>
 
-
-      {/* DOCUMENTS SECTION (kept as-is for PDFs) */}
-      {/* DOCUMENTS SECTION (Certificates & Documents) */}
+      {/* DOCUMENTS SECTION */}
       <section
         id="documents"
         className="relative min-h-screen pt-16 flex flex-col justify-center items-center px-6 py-20 bg-black text-white overflow-hidden"
@@ -333,7 +344,7 @@ export default function Home() {
         {/* Background image */}
         <div className="absolute inset-0">
           <img
-            src="/documents-bg.jpg" // keep this in /public or change the path
+            src="/documents-bg.jpg"
             alt="Certificates background"
             className="w-full h-full object-cover"
           />
@@ -353,8 +364,8 @@ export default function Home() {
           </h2>
 
           <p className="text-gray-200 mb-10 text-center max-w-2xl">
-            Official documents and course certifications — click to view, download,
-            or open the credential source.
+            Official documents and course certifications — click to view,
+            download, or open the credential source.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full justify-center">
@@ -374,12 +385,15 @@ export default function Home() {
         </div>
       </section>
 
-
-
+      {/* CONTACT SECTION */}
       {/* CONTACT SECTION */}
       <section
         id="contact"
-        className="min-h-screen pt-16 flex flex-col justify-center items-center px-6 py-20 bg-black text-white"
+        className={`min-h-screen pt-16 flex flex-col justify-center items-center px-6 py-20 transition-colors duration-300 ${
+          theme === "dark"
+            ? "bg-black text-white"
+            : "bg-slate-50 text-slate-900"
+        }`}
       >
         <div className="w-full max-w-5xl flex flex-col items-center">
           {/* Heading */}
@@ -394,7 +408,11 @@ export default function Home() {
             >
               Let&apos;s build something together.
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-gray-300">
+            <p
+              className={`mt-4 text-sm sm:text-base ${
+                theme === "dark" ? "text-gray-300" : "text-slate-600"
+              }`}
+            >
               I’m open to opportunities, collaborations, and interesting ideas.
               Share a bit about what you’re working on, and I’ll get back to you
               as soon as I can.
@@ -403,88 +421,104 @@ export default function Home() {
 
           {/* Form card */}
           <form
-          className="w-full max-w-xl bg-white/5 border border-white/15 rounded-2xl
-                     shadow-xl backdrop-blur-md p-6 sm:p-8 space-y-5"
-          onSubmit={handleContactSubmit}
-        >
-          <div>
-            <label
-              className="block text-sm font-medium mb-2 text-gray-200"
-              htmlFor="name"
-            >
-              Name
-            </label>
-            <input
-              className="w-full px-4 py-2.5 rounded-lg border border-white/15 
-                         bg-black/40 text-white placeholder-gray-400
-                         focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Your name"
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              className="block text-sm font-medium mb-2 text-gray-200"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              className="w-full px-4 py-2.5 rounded-lg border border-white/15 
-                         bg-black/40 text-white placeholder-gray-400
-                         focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              className="block text-sm font-medium mb-2 text-gray-200"
-              htmlFor="message"
-            >
-              Message
-            </label>
-            <textarea
-              className="w-full px-4 py-2.5 rounded-lg border border-white/15 
-                         bg-black/40 text-white placeholder-gray-400
-                         focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-              id="message"
-              name="message"
-              rows={5}
-              placeholder="Tell me a bit about your project or idea..."
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full mt-2 px-6 py-3 rounded-lg font-semibold
-                       bg-gradient-to-r from-lime-400 via-sky-400 to-orange-400
-                       text-black shadow-md hover:shadow-xl hover:brightness-110
-                       disabled:opacity-60 disabled:cursor-not-allowed
-                       transition"
+            onSubmit={handleContactSubmit}
+            className={`w-full max-w-xl rounded-2xl p-6 sm:p-8 space-y-5 shadow-xl border transition-colors duration-300 ${
+              theme === "dark"
+                ? "bg-white/5 border-white/15 backdrop-blur-md"
+                : "bg-white border-slate-200"
+            }`}
           >
-            {isSubmitting ? "Sending..." : "Send Message"}
-          </button>
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="name"
+              >
+                Name
+              </label>
+              <input
+                className={`w-full px-4 py-2.5 rounded-lg border text-sm sm:text-base
+                            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 ${
+                              theme === "dark"
+                                ? "bg-black/40 text-white placeholder-gray-400 border-white/15"
+                                : "bg-white text-slate-900 placeholder-slate-400 border-slate-300"
+                            }`}
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your name"
+                required
+              />
+            </div>
 
-          {statusMessage && (
-            <p className="text-xs sm:text-sm text-center text-gray-300 mt-2">
-              {statusMessage}
-            </p>
-          )}
-        </form>
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                className={`w-full px-4 py-2.5 rounded-lg border text-sm sm:text-base
+                            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 ${
+                              theme === "dark"
+                                ? "bg-black/40 text-white placeholder-gray-400 border-white/15"
+                                : "bg-white text-slate-900 placeholder-slate-400 border-slate-300"
+                            }`}
+                type="email"
+                id="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                className="block text-sm font-medium mb-2"
+                htmlFor="message"
+              >
+                Message
+              </label>
+              <textarea
+                className={`w-full px-4 py-2.5 rounded-lg border text-sm sm:text-base
+                            focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 ${
+                              theme === "dark"
+                                ? "bg-black/40 text-white placeholder-gray-400 border-white/15"
+                                : "bg-white text-slate-900 placeholder-slate-400 border-slate-300"
+                            }`}
+                id="message"
+                name="message"
+                rows={5}
+                placeholder="Tell me a bit about your project or idea..."
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full mt-2 px-6 py-3 rounded-lg font-semibold
+                         bg-gradient-to-r from-lime-400 via-sky-400 to-orange-400
+                         text-black shadow-md hover:shadow-xl hover:brightness-110
+                         disabled:opacity-60 disabled:cursor-not-allowed
+                         transition"
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+
+            {statusMessage && (
+              <p
+                className={`text-xs sm:text-sm text-center mt-2 ${
+                  theme === "dark" ? "text-gray-300" : "text-slate-600"
+                }`}
+              >
+                {statusMessage}
+              </p>
+            )}
+          </form>
         </div>
       </section>
-            <Footer />
+
     </>
   );
 }
